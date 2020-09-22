@@ -11,6 +11,7 @@ import (
 )
 
 func main()  {
+	log.Println("START", os.Getenv("MONGO_URI"))
 	loadErr := godotenv.Load()
 
 	if loadErr != nil {
