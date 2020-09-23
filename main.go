@@ -11,7 +11,6 @@ import (
 )
 
 func main()  {
-	log.Println("START", os.Getenv("MONGO_URI"))
 	loadErr := godotenv.Load()
 
 	if loadErr != nil {
@@ -26,10 +25,11 @@ func main()  {
 
 	finalHelloHandler := http.HandlerFunc(controllers.HelloController)
 	finalMaterialsHandler := http.HandlerFunc(controllers.MaterialsController)
+	finalPostHandler := http.HandlerFunc(controllers.PostController)
 
 	mux.Handle("/hello", middlewares.CorrelationIDMiddleware(finalHelloHandler))
 	mux.Handle("/materials", middlewares.CorrelationIDMiddleware(finalMaterialsHandler))
-
+	mux.Handle("/post", middlewares.CorrelationIDMiddleware(finalPostHandler))
 
 	err := http.ListenAndServe(":" + port, mux)
 

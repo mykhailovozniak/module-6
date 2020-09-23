@@ -7,3 +7,7 @@ https://young-springs-45765.herokuapp.com/hello
 
 ## Link to /materials
 https://young-springs-45765.herokuapp.com/materials
+
+## Link to /materials
+#### 1,2,3-cached
+https://young-springs-45765.herokuapp.com/post?postId=1
