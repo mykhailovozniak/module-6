@@ -14,7 +14,7 @@ type Post struct {
 	Body string  	`json:"body"`
 }
 
-func isJSON(s string) bool {
+func IsJSON(s string) bool {
 	var js map[string]interface{}
 
 	return json.Unmarshal([]byte(s), &js) == nil
@@ -22,10 +22,11 @@ func isJSON(s string) bool {
 }
 
 func PostController(res http.ResponseWriter, req *http.Request) {
-	keys, hasCacheVersion := req.URL.Query()["postId"]
+	keys, ok := req.URL.Query()["postId"]
 
-	if !hasCacheVersion || len(keys[0]) < 1 {
+	if !ok || len(keys[0]) < 1 {
 		log.Println("Url param 'postId' is missing")
+		http.Error(res, "Bad request", 400)
 
 		return
 	}
@@ -65,7 +66,7 @@ func PostController(res http.ResponseWriter, req *http.Request) {
 	res.Header().Set("Content-Type", "application/json")
 	res.Header().Set("cached", "true")
 
-	log.Println("isJSON", isJSON(cachePost))
+	log.Println("isJSON", IsJSON(cachePost))
 
 	err := json.Unmarshal([]byte(cachePost), &post)
 
