@@ -14,7 +14,7 @@ import (
 func Connect()  {
 	loadErr := godotenv.Load()
 	if loadErr != nil {
-		log.Println("Error loading .env file")
+		panic(loadErr)
 	}
 
 	mongoUri := os.Getenv("MONGO_URI")
@@ -26,7 +26,7 @@ func Connect()  {
 	client, err := mongo.Connect(context.TODO(), clientOptions)
 
 	if err != nil {
-		log.Fatal(err)
+		panic(err)
 	}
 
 	log.Println("Connected to MongoDB!")
