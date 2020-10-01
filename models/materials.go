@@ -2,7 +2,6 @@ package models
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/mongo"
 	"log"
 )
 
@@ -10,7 +9,13 @@ type Material struct {
 	Name string `json:"Name"`
 }
 
-func MapMaterials(cur *mongo.Cursor) []*Material {
+type Cursor interface {
+	Next(ctx context.Context) bool
+	Decode(val interface{}) (err error)
+	Err() (err error)
+}
+
+func MapMaterials(cur Cursor) []*Material {
 	var materials []*Material
 
 	for cur.Next(context.TODO()) {
